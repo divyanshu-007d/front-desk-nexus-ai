@@ -8,9 +8,7 @@ interface TalkingHeadProps {
   className?: string;
 }
 
-const TalkingHead: React.FC<TalkingHeadProps> = ({
-  className = ''
-}) => {
+const TalkingHead: React.FC<TalkingHeadProps> = ({ className = '' }) => {
   const avatarRef = useRef<HTMLDivElement>(null);
   const headRef = useRef<any>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
@@ -24,28 +22,31 @@ const TalkingHead: React.FC<TalkingHeadProps> = ({
   const [scriptsLoaded, setScriptsLoaded] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
 
-  const buildReadyPlayerAvatarUrl = useCallback((avatarId: string, withMorphTargets: boolean) => {
-    const url = new URL(`https://models.readyplayer.me/${avatarId}.glb`);
+  const buildReadyPlayerAvatarUrl = useCallback(
+    (avatarId: string, withMorphTargets: boolean) => {
+      const url = new URL(`https://models.readyplayer.me/${avatarId}.glb`);
 
-    if (withMorphTargets) {
-      url.searchParams.set(
-        'morphTargets',
-        [
-          'ARKit',
-          'Oculus Visemes',
-          'mouthOpen',
-          'mouthSmile',
-          'eyesClosed',
-          'eyesLookUp',
-          'eyesLookDown'
-        ].join(',')
-      );
-      url.searchParams.set('textureSizeLimit', '1024');
-      url.searchParams.set('textureFormat', 'png');
-    }
+      if (withMorphTargets) {
+        url.searchParams.set(
+          'morphTargets',
+          [
+            'ARKit',
+            'Oculus Visemes',
+            'mouthOpen',
+            'mouthSmile',
+            'eyesClosed',
+            'eyesLookUp',
+            'eyesLookDown'
+          ].join(',')
+        );
+        url.searchParams.set('textureSizeLimit', '1024');
+        url.searchParams.set('textureFormat', 'png');
+      }
 
-    return url.toString();
-  }, []);
+      return url.toString();
+    },
+    []
+  );
 
   const getAvatarUrlCandidates = useCallback(
     (gender: string) => {
@@ -69,7 +70,11 @@ const TalkingHead: React.FC<TalkingHeadProps> = ({
         '/avatars/brunette.glb'
       ];
 
-      return [...new Set(candidates.filter((value): value is string => Boolean(value)))];
+      return [
+        ...new Set(
+          candidates.filter((value): value is string => Boolean(value))
+        )
+      ];
     },
     [buildReadyPlayerAvatarUrl]
   );
@@ -400,7 +405,9 @@ const TalkingHead: React.FC<TalkingHeadProps> = ({
       }
     }
 
-    console.error(`Failed to load avatar: ${lastError || 'all sources failed'}`);
+    console.error(
+      `Failed to load avatar: ${lastError || 'all sources failed'}`
+    );
   };
 
   const handleAvatarChange = (gender: string) => {
@@ -427,7 +434,9 @@ const TalkingHead: React.FC<TalkingHeadProps> = ({
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#f0ece6]">
           <Loader2 className="mb-3 h-8 w-8 animate-spin text-[#5a5a7a]" />
           <p className="text-sm text-[#5a5a7a]">
-            {!scriptsLoaded ? 'Loading avatar engine…' : 'Preparing your assistant…'}
+            {!scriptsLoaded
+              ? 'Loading avatar engine…'
+              : 'Preparing your assistant…'}
           </p>
         </div>
       )}
@@ -450,11 +459,22 @@ const TalkingHead: React.FC<TalkingHeadProps> = ({
       {isSpeaking && (
         <div className="absolute top-16 right-5 flex items-center gap-1.5">
           <div className="flex gap-0.5">
-            <div className="h-2 w-0.5 animate-pulse rounded-full bg-[#5a5a7a]/60" style={{ animationDelay: '0ms' }} />
-            <div className="h-3 w-0.5 animate-pulse rounded-full bg-[#5a5a7a]/60" style={{ animationDelay: '150ms' }} />
-            <div className="h-2 w-0.5 animate-pulse rounded-full bg-[#5a5a7a]/60" style={{ animationDelay: '300ms' }} />
+            <div
+              className="h-2 w-0.5 animate-pulse rounded-full bg-[#5a5a7a]/60"
+              style={{ animationDelay: '0ms' }}
+            />
+            <div
+              className="h-3 w-0.5 animate-pulse rounded-full bg-[#5a5a7a]/60"
+              style={{ animationDelay: '150ms' }}
+            />
+            <div
+              className="h-2 w-0.5 animate-pulse rounded-full bg-[#5a5a7a]/60"
+              style={{ animationDelay: '300ms' }}
+            />
           </div>
-          <span className="text-[11px] font-medium text-[#5a5a7a]/70">Speaking</span>
+          <span className="text-[11px] font-medium text-[#5a5a7a]/70">
+            Speaking
+          </span>
         </div>
       )}
     </div>

@@ -123,7 +123,7 @@
 
 /* Prevent canvas from being cut off inside the avatar container */
 #talkinghead canvas,
-[class*="talkinghead"] canvas {
+[class*='talkinghead'] canvas {
   width: 100% !important;
   height: 100% !important;
   display: block;

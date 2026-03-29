@@ -206,7 +206,9 @@ class NvidiaProcessor:
         if not api_key:
             raise RuntimeError("Missing NVIDIA_API_KEY environment variable")
 
-        self.base_url = os.getenv("NVIDIA_BASE_URL", "https://integrate.api.nvidia.com/v1")
+        self.base_url = os.getenv(
+            "NVIDIA_BASE_URL", "https://integrate.api.nvidia.com/v1"
+        )
         self.model_name = os.getenv("NVIDIA_MODEL", "minimaxai/minimax-m2.5")
         self.client = OpenAI(base_url=self.base_url, api_key=api_key)
 
@@ -272,7 +274,10 @@ class NvidiaProcessor:
         if isinstance(content, list):
             extracted_parts = []
             for item in content:
-                if isinstance(item, dict) and item.get("type") in {"text", "output_text"}:
+                if isinstance(item, dict) and item.get("type") in {
+                    "text",
+                    "output_text",
+                }:
                     text = item.get("text")
                     if text:
                         extracted_parts.append(text)
@@ -285,7 +290,9 @@ class NvidiaProcessor:
         if not cleaned:
             return ""
 
-        sentences = [s.strip() for s in re.split(r"(?<=[.!?])\s+", cleaned) if s.strip()]
+        sentences = [
+            s.strip() for s in re.split(r"(?<=[.!?])\s+", cleaned) if s.strip()
+        ]
         if len(sentences) >= 2:
             return " ".join(sentences[:2]).strip()
 
@@ -339,7 +346,9 @@ class NvidiaProcessor:
             ),
         )
 
-    async def generate_response(self, user_text: str, include_image: bool = False) -> str:
+    async def generate_response(
+        self, user_text: str, include_image: bool = False
+    ) -> str:
         """Generate a compliant administrative response using NVIDIA model routing."""
         sanitized_user_text = (user_text or "").strip()
         if not sanitized_user_text:
@@ -356,12 +365,16 @@ class NvidiaProcessor:
                 user_content: Any = prompt_text
 
                 if include_image and self.last_image_bytes:
-                    encoded_image = base64.b64encode(self.last_image_bytes).decode("utf-8")
+                    encoded_image = base64.b64encode(self.last_image_bytes).decode(
+                        "utf-8"
+                    )
                     user_content = [
                         {"type": "text", "text": prompt_text},
                         {
                             "type": "image_url",
-                            "image_url": {"url": f"data:image/jpeg;base64,{encoded_image}"},
+                            "image_url": {
+                                "url": f"data:image/jpeg;base64,{encoded_image}"
+                            },
                         },
                     ]
 
@@ -602,6 +615,7 @@ class KokoroTTSProcessor:
         except Exception as e:
             logger.error(f"Chunk speech synthesis with timing error: {e}")
             return None, []
+
 
 # Store active connections
 class ConnectionManager:

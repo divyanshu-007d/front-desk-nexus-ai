@@ -45,11 +45,7 @@ const VoiceActivityDetector: React.FC<VoiceActivityDetectorProps> = ({
   const speechStartTimeRef = useRef(0);
 
   // WebSocket integration
-  const {
-    isConnected,
-    connect,
-    sendAudioSegment
-  } = useWebSocketContext();
+  const { isConnected, connect, sendAudioSegment } = useWebSocketContext();
 
   const notifyUserGesture = useCallback(() => {
     if (typeof window !== 'undefined') {
@@ -295,7 +291,10 @@ const VoiceActivityDetector: React.FC<VoiceActivityDetectorProps> = ({
           (config.minSpeechDuration * config.sampleRate) / 1024
         );
 
-        if (speechFramesRef.current >= minSpeechFrames || isInSpeechRef.current) {
+        if (
+          speechFramesRef.current >= minSpeechFrames ||
+          isInSpeechRef.current
+        ) {
           console.log('Flushing held speech segment');
           createAndSendAudio(audioBufferRef.current);
         }
@@ -379,7 +378,7 @@ const VoiceActivityDetector: React.FC<VoiceActivityDetectorProps> = ({
   const pulseScale = 1 + Math.min(currentEnergy / 0.05, 1) * 0.3;
 
   return (
-    <div className={`flex flex-col items-center pb-10 pt-4 ${className ?? ''}`}>
+    <div className={`flex flex-col items-center pt-4 pb-10 ${className ?? ''}`}>
       {/* Gradient fade from transparent to a soft ground */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#f0ece6] via-[#f0ece6]/80 to-transparent" />
 
@@ -392,7 +391,9 @@ const VoiceActivityDetector: React.FC<VoiceActivityDetectorProps> = ({
             : isPressToTalkActive
               ? 'Listening — release to send'
               : isListening
-                ? isSpeechActive ? 'Hearing you…' : 'Listening…'
+                ? isSpeechActive
+                  ? 'Hearing you…'
+                  : 'Listening…'
                 : 'Hold the mic to speak'}
         </p>
 
@@ -431,7 +432,9 @@ const VoiceActivityDetector: React.FC<VoiceActivityDetectorProps> = ({
           disabled={!isConnected || isPressToTalkActive}
           className="text-[11px] text-[#5a5a7a]/60 underline decoration-dotted underline-offset-2 transition-colors hover:text-[#5a5a7a] disabled:cursor-not-allowed disabled:no-underline disabled:opacity-40"
         >
-          {isListening ? 'Stop continuous mode' : 'or tap for continuous listening'}
+          {isListening
+            ? 'Stop continuous mode'
+            : 'or tap for continuous listening'}
         </button>
       </div>
     </div>

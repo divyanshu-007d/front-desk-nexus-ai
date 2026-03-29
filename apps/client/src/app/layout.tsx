@@ -16,7 +16,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'FrontDesk Nexus AI',
-  description: 'Voice-first healthcare front desk assistant with compliance guardrails'
+  description:
+    'Voice-first healthcare front desk assistant with compliance guardrails'
 };
 
 export default function RootLayout({
