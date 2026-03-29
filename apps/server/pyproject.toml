@@ -1,0 +1,54 @@
+[project]
+name = "front-desk-nexus-ai-server"
+version = "0.1.0"
+description = "FrontDesk Nexus AI server application"
+readme = "README.md"
+requires-python = ">=3.10,<3.11"
+dependencies = [
+    # PyTorch with CUDA support - specific versions
+    "torch==2.6.0+cu124",
+    "torchvision==0.21.0+cu124",
+    # From requirements.txt
+    "soundfile==0.13.1",
+    "pillow==11.0.0",
+    "scipy==1.15.2",
+    "backoff==2.2.1",
+    "wheel",
+    "packaging",
+    "kokoro",
+    "requests",
+    "websockets",
+    "transformers>=4.49.0,<5",
+    "accelerate>=1.7.0",
+    "openai>=1.109.1",
+    "pip>=25.1.1",
+    "fastapi[standard]>=0.115.6",
+    "uvicorn>=0.34.3",
+    "whisper>=1.1.10",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black>=24.10.0",
+    "pre-commit>=4.0.1",
+]
+
+[tool.uv]
+# PyTorch CUDA index for GPU support
+extra-index-url = [
+    "https://download.pytorch.org/whl/cu124"
+]
+index-strategy = "unsafe-best-match"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+include = [
+    "*.py",
+    "README.md",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

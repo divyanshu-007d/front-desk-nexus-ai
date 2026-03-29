@@ -1,0 +1,24 @@
+{
+	"name": "front-desk-nexus-ai",
+	"version": "1.0.0",
+	"description": "",
+	"scripts": {
+		"monorepo-setup": "pnpm install && pnpm --filter @front-desk-nexus-ai/server exec uv sync",
+		"dev": "concurrently \"pnpm run dev:client\" \"pnpm run dev:server\"",
+		"dev:client": "pnpm --filter @front-desk-nexus-ai/client dev",
+		"dev:server": "pnpm --filter @front-desk-nexus-ai/server dev",
+		"build": "pnpm -r build",
+		"prepare": "husky",
+		"format": "pnpm run format:client && pnpm run format:server",
+		"format:client": "pnpm --filter @front-desk-nexus-ai/client format",
+		"format:server": "pnpm --filter @front-desk-nexus-ai/server format",
+		"format:check": "pnpm run format:check:client && pnpm run format:check:server",
+		"format:check:client": "pnpm --filter @front-desk-nexus-ai/client format:check",
+		"format:check:server": "pnpm --filter @front-desk-nexus-ai/server format:check"
+	},
+	"author": "kiranbaby14",
+	"devDependencies": {
+		"concurrently": "^9.2.0",
+		"husky": "^9.1.7"
+	}
+}
